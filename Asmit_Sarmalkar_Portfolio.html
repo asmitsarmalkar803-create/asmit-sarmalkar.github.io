@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asmit Sarmalkar — Business & Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0c0f0a;
+    --bg2: #131710;
+    --bg3: #1a1f16;
+    --surface: #1f2519;
+    --border: rgba(140,180,80,0.12);
+    --border2: rgba(140,180,80,0.22);
+    --green: #8CB450;
+    --green-dim: rgba(140,180,80,0.15);
+    --green-bright: #a8d060;
+    --text: #e8edd8;
+    --text2: #9aa880;
+    --text3: #5a6248;
+    --accent: #c8e87a;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'DM Sans', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(12,15,10,0.85);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--green);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text2);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
+    pointer-events: none;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(140,180,80,0.08) 0%, transparent 70%);
+    top: 10%; left: -10%;
+    pointer-events: none;
+  }
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.1s forwards;
+  }
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 32px; height: 1px;
+    background: var(--green);
+  }
+  .hero-name {
+    font-family: var(--serif);
+    font-size: clamp(4rem, 10vw, 8rem);
+    line-height: 0.95;
+    color: var(--text);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.2s forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--text2);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.35s forwards;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.5s forwards;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.8rem 1.8rem;
+    background: var(--green);
+    color: #0c0f0a;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.8rem 1.8rem;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    border: 1px solid var(--border2);
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--green); color: var(--green); }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+    opacity: 0;
+    animation: fadeUp 0.7s 0.65s forwards;
+  }
+  .hero-stat-num {
+    font-family: var(--serif);
+    font-size: 2.8rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .hero-stat-lbl {
+    font-size: 11px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 6rem 3rem;
+    border-top: 1px solid var(--border);
+  }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px; height: 1px;
+    background: var(--green);
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: 3rem;
+    color: var(--text);
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p {
+    color: var(--text2);
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+  }
+  .about-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 1.2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .detail-row span:first-child { color: var(--text3); font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; }
+  .detail-row span:last-child { color: var(--text); }
+  .detail-row a { color: var(--green); text-decoration: none; }
+  .detail-row a:hover { color: var(--accent); }
+
+  /* SKILLS */
+  .skills-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .skill-block {
+    background: var(--bg);
+    padding: 2rem;
+    transition: background 0.2s;
+  }
+  .skill-block:hover { background: var(--bg3); }
+  .skill-block-icon {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  .skill-block-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.03em;
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .skill-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 9px;
+    background: var(--green-dim);
+    color: var(--green);
+    border: 1px solid rgba(140,180,80,0.2);
+    letter-spacing: 0.03em;
+  }
+  .skill-tag.hi {
+    background: rgba(140,180,80,0.25);
+    color: var(--accent);
+    border-color: rgba(140,180,80,0.4);
+  }
+
+  /* EXPERIENCE */
+  .exp-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .exp-entry {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 2rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .exp-entry:first-child { border-top: 1px solid var(--border); }
+  .exp-meta {
+    padding-top: 4px;
+  }
+  .exp-dates {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .exp-company {
+    font-size: 12px;
+    color: var(--text3);
+  }
+  .exp-role {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.8rem;
+  }
+  .exp-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .exp-bullets li {
+    font-size: 0.88rem;
+    color: var(--text2);
+    padding-left: 1.2rem;
+    position: relative;
+  }
+  .exp-bullets li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--green);
+    font-size: 12px;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .proj-card {
+    background: var(--bg);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: block;
+  }
+  .proj-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--green);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .proj-card:hover { background: var(--bg3); }
+  .proj-card:hover::before { transform: scaleX(1); }
+  .proj-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.2rem;
+  }
+  .proj-name {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    color: var(--text);
+    margin-bottom: 0.7rem;
+    line-height: 1.2;
+  }
+  .proj-desc {
+    font-size: 0.85rem;
+    color: var(--text2);
+    margin-bottom: 1.5rem;
+    line-height: 1.65;
+  }
+  .proj-result {
+    font-size: 0.8rem;
+    color: var(--green);
+    font-family: var(--mono);
+    margin-bottom: 1.2rem;
+    padding: 0.5rem 0.8rem;
+    background: var(--green-dim);
+    border-left: 2px solid var(--green);
+  }
+  .proj-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .stack-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 9px;
+    border: 1px solid var(--border2);
+    color: var(--text3);
+    letter-spacing: 0.03em;
+  }
+
+  /* CERTIFICATIONS */
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .cert-item {
+    background: var(--bg);
+    padding: 1.8rem;
+    transition: background 0.2s;
+  }
+  .cert-item:hover { background: var(--bg3); }
+  .cert-check {
+    width: 28px; height: 28px;
+    background: var(--green-dim);
+    border: 1px solid rgba(140,180,80,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--green);
+    font-size: 14px;
+  }
+  .cert-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .cert-issuer {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.05em;
+  }
+
+  /* EDUCATION */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .edu-card {
+    border: 1px solid var(--border);
+    padding: 2rem;
+    position: relative;
+    background: var(--bg2);
+  }
+  .edu-year {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--green);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+  .edu-degree {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .edu-school {
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 8px;
+  }
+  .edu-score {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+  }
+
+  /* CONTACT */
+  .contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .contact-headline {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .contact-headline em { color: var(--accent); font-style: italic; }
+  .contact-blurb { color: var(--text2); font-size: 0.9rem; margin-bottom: 2rem; }
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.3rem;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: background 0.15s;
+    gap: 1rem;
+  }
+  .contact-link:last-child { border-bottom: none; }
+  .contact-link:hover { background: var(--surface); }
+  .contact-link-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .contact-link-icon {
+    width: 32px; height: 32px;
+    background: var(--green-dim);
+    border: 1px solid rgba(140,180,80,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--green);
+    flex-shrink: 0;
+  }
+  .contact-link-label { font-size: 11px; color: var(--text3); font-family: var(--mono); letter-spacing: 0.05em; }
+  .contact-link-val { font-size: 13px; color: var(--text); margin-top: 1px; }
+  .contact-link-arrow { color: var(--text3); font-size: 18px; transition: color 0.15s, transform 0.15s; }
+  .contact-link:hover .contact-link-arrow { color: var(--green); transform: translateX(3px); }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 3rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.06em;
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.2rem; }
+    .nav-links { display: none; }
+    .hero { padding: 7rem 1.2rem 3rem; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    section { padding: 4rem 1.2rem; }
+    .about-grid, .projects-grid, .edu-grid, .contact-wrapper { grid-template-columns: 1fr; }
+    .exp-entry { grid-template-columns: 1fr; gap: 0.5rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">AS / Portfolio</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-tag">Available for opportunities</div>
+  <h1 class="hero-name">Asmit<br><em>Sarmalkar</em></h1>
+  <p class="hero-sub">Business Analyst · Data Analyst · BI Developer — turning raw data into decisions that matter, through dashboards, KPIs, and clear analytical thinking.</p>
+  <div class="hero-cta">
+    <a class="btn-primary" href="#projects">View my work ↓</a>
+    <a class="btn-outline" href="mailto:asmitsarmalkar803@gmail.com">Get in touch</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="hero-stat-num">6</div>
+      <div class="hero-stat-lbl">Dashboards Built</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">3+</div>
+      <div class="hero-stat-lbl">BI Tools</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">8.18</div>
+      <div class="hero-stat-lbl">CGPA</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">4</div>
+      <div class="hero-stat-lbl">Certifications</div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <div class="section-label">01 — About</div>
+    <h2 class="section-title">Data is a story.<br><em>I tell it well.</em></h2>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>I'm a Business and Data Analyst based in Mumbai, India, with hands-on experience in requirement gathering, KPI reporting, and building dashboards that decision-makers actually use.</p>
+      <p>During my internship at Aivariant, I built 6 dashboards across Power BI, Tableau, and Excel — writing SQL queries, cleaning datasets, and translating business requirements into actionable visual insights.</p>
+      <p>I hold a B.Sc. in Information Technology from SRM College, Mumbai (CGPA 8.18/10), and a Business Analyst certification from ExcelR. I'm fluent in English, Hindi, and Marathi.</p>
+    </div>
+    <div class="about-details">
+      <div class="detail-row">
+        <span>Location</span>
+        <span>Mumbai, India</span>
+      </div>
+      <div class="detail-row">
+        <span>Email</span>
+        <span><a href="mailto:asmitsarmalkar803@gmail.com">asmitsarmalkar803@gmail.com</a></span>
+      </div>
+      <div class="detail-row">
+        <span>Phone</span>
+        <span>+91 92848 60663</span>
+      </div>
+      <div class="detail-row">
+        <span>LinkedIn</span>
+        <span><a href="https://www.linkedin.com/in/asmit-sarmalkar" target="_blank">linkedin.com/in/asmit-sarmalkar</a></span>
+      </div>
+      <div class="detail-row">
+        <span>Status</span>
+        <span style="color: var(--green);">● Open to work</span>
+      </div>
+      <div class="detail-row">
+        <span>Languages</span>
+        <span>English · Hindi · Marathi</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="reveal">
+    <div class="section-label">02 — Skills</div>
+    <h2 class="section-title">Tools I use to<br><em>make data speak.</em></h2>
+  </div>
+  <div class="skills-container reveal">
+    <div class="skill-block">
+      <div class="skill-block-icon">📊</div>
+      <div class="skill-block-title">BI & Visualization</div>
+      <div class="skill-tags">
+        <span class="skill-tag hi">Power BI</span>
+        <span class="skill-tag hi">Tableau</span>
+        <span class="skill-tag hi">Advanced Excel</span>
+        <span class="skill-tag">DAX</span>
+        <span class="skill-tag">Data Modeling</span>
+        <span class="skill-tag">KPI Dashboards</span>
+        <span class="skill-tag">Drill-through</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-block-icon">🗄️</div>
+      <div class="skill-block-title">Database & SQL</div>
+      <div class="skill-tags">
+        <span class="skill-tag hi">MySQL</span>
+        <span class="skill-tag hi">SQL</span>
+        <span class="skill-tag">Joins</span>
+        <span class="skill-tag">Subqueries</span>
+        <span class="skill-tag">ETL</span>
+        <span class="skill-tag">Data Cleaning</span>
+        <span class="skill-tag">Data Validation</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-block-icon">📋</div>
+      <div class="skill-block-title">Excel Toolkit</div>
+      <div class="skill-tags">
+        <span class="skill-tag hi">Pivot Tables</span>
+        <span class="skill-tag hi">Power Query</span>
+        <span class="skill-tag">Power Pivot</span>
+        <span class="skill-tag">XLOOKUP</span>
+        <span class="skill-tag">VBA</span>
+        <span class="skill-tag">Automation</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-block-icon">📝</div>
+      <div class="skill-block-title">Business Analysis</div>
+      <div class="skill-tags">
+        <span class="skill-tag hi">BRD / FRD</span>
+        <span class="skill-tag hi">User Stories</span>
+        <span class="skill-tag">Requirement Gathering</span>
+        <span class="skill-tag">Agile / Scrum</span>
+        <span class="skill-tag">Jira</span>
+        <span class="skill-tag">Zoho Projects</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-block-icon">🐍</div>
+      <div class="skill-block-title">Programming</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Python (Basic)</span>
+        <span class="skill-tag">VBA</span>
+        <span class="skill-tag">PHP</span>
+        <span class="skill-tag">HTML / CSS</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-block-icon">🎯</div>
+      <div class="skill-block-title">Core Competencies</div>
+      <div class="skill-tags">
+        <span class="skill-tag hi">KPI Reporting</span>
+        <span class="skill-tag hi">Root Cause Analysis</span>
+        <span class="skill-tag">Stakeholder Management</span>
+        <span class="skill-tag">Data Storytelling</span>
+        <span class="skill-tag">Process Improvement</span>
+        <span class="skill-tag">Forecasting</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="reveal">
+    <div class="section-label">03 — Experience</div>
+    <h2 class="section-title">Where I've<br><em>applied my craft.</em></h2>
+  </div>
+  <div class="exp-timeline">
+    <div class="exp-entry reveal">
+      <div class="exp-meta">
+        <div class="exp-dates">Oct 2025 – Jan 2026</div>
+        <div class="exp-company">Aivariant</div>
+      </div>
+      <div>
+        <div class="exp-role">Business Analyst Intern</div>
+        <ul class="exp-bullets">
+          <li>Designed and deployed 6 dashboards across Power BI, Tableau & Excel for real-time KPI monitoring, estimated to reduce reporting turnaround by ~40%</li>
+          <li>Authored SQL queries for data extraction, aggregation, and KPI computation from MySQL databases ensuring pipeline integrity</li>
+          <li>Prepared BRD, FRD and wrote structured User Stories with acceptance criteria in Agile/Scrum sprints tracked via Jira</li>
+          <li>Executed data cleaning and transformation workflows using Power Query and MySQL, standardising datasets for analytics</li>
+          <li>Delivered root-cause analysis and actionable business recommendations to stakeholders across sales and operations</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-entry reveal">
+      <div class="exp-meta">
+        <div class="exp-dates">Apr – May 2023</div>
+        <div class="exp-company">Vyom Techlab Incubation Centre</div>
+      </div>
+      <div>
+        <div class="exp-role">Web & Design Intern</div>
+        <ul class="exp-bullets">
+          <li>Developed responsive, cross-browser-compatible web pages using HTML5 and CSS3</li>
+          <li>Designed UI assets, wireframes, and visual components using Canva and Figma</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal">
+    <div class="section-label">04 — Projects</div>
+    <h2 class="section-title">Work that<br><em>delivered results.</em></h2>
+  </div>
+  <div class="projects-grid reveal">
+    <div class="proj-card">
+      <div class="proj-number">01 / Power BI</div>
+      <div class="proj-name">Sales Analytics Dashboard</div>
+      <div class="proj-desc">Centralized sales performance visibility with YoY growth analysis, drill-through pages, and dynamic KPI cards segmented by region, category, and time period.</div>
+      <div class="proj-result">→ Identified 15%+ YoY growth segments, pinpointing key revenue opportunities</div>
+      <div class="proj-stack">
+        <span class="stack-tag">Power BI</span>
+        <span class="stack-tag">DAX</span>
+        <span class="stack-tag">MySQL</span>
+        <span class="stack-tag">Data Modeling</span>
+      </div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-number">02 / Tableau</div>
+      <div class="proj-name">Business KPI Dashboard</div>
+      <div class="proj-desc">Executive-ready Tableau dashboard with KPI scorecards for Sales, Profit, and Margin — featuring dynamic filtering and drill-down analysis via calculated fields and parameters.</div>
+      <div class="proj-result">→ Adopted as standard reporting tool for executive performance reviews</div>
+      <div class="proj-stack">
+        <span class="stack-tag">Tableau</span>
+        <span class="stack-tag">Calculated Fields</span>
+        <span class="stack-tag">Parameters</span>
+      </div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-number">03 / Excel</div>
+      <div class="proj-name">Automated Sales Dashboard</div>
+      <div class="proj-desc">Fully automated Excel dashboard with Pivot Tables, dynamic slicers, Power Query-driven data refresh, and VBA macros eliminating manual monthly reporting effort.</div>
+      <div class="proj-result">→ Reduced report generation time by ~60%, eliminated data entry errors</div>
+      <div class="proj-stack">
+        <span class="stack-tag">Excel</span>
+        <span class="stack-tag">VBA</span>
+        <span class="stack-tag">Power Query</span>
+        <span class="stack-tag">Pivot Tables</span>
+      </div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-number">04 / Full-stack</div>
+      <div class="proj-name">Agribuzz — Agri Management System</div>
+      <div class="proj-desc">Farmer-to-customer e-commerce platform. Led requirements analysis, designed normalised MySQL schema, and built inventory and order processing modules end-to-end across the SDLC.</div>
+      <div class="proj-result">→ Delivered complete working system covering analysis through deployment</div>
+      <div class="proj-stack">
+        <span class="stack-tag">PHP</span>
+        <span class="stack-tag">MySQL</span>
+        <span class="stack-tag">HTML / CSS</span>
+        <span class="stack-tag">SDLC</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="reveal">
+    <div class="section-label">05 — Certifications</div>
+    <h2 class="section-title">Credentials &<br><em>education.</em></h2>
+  </div>
+  <div class="cert-grid reveal" style="margin-bottom: 2.5rem;">
+    <div class="cert-item">
+      <div class="cert-check">✓</div>
+      <div class="cert-name">Business Analyst Certification</div>
+      <div class="cert-issuer">ExcelR</div>
+    </div>
+    <div class="cert-item">
+      <div class="cert-check">✓</div>
+      <div class="cert-name">Advanced Excel</div>
+      <div class="cert-issuer">Certification</div>
+    </div>
+    <div class="cert-item">
+      <div class="cert-check">✓</div>
+      <div class="cert-name">Mobile App Development</div>
+      <div class="cert-issuer">Fundamentals</div>
+    </div>
+    <div class="cert-item">
+      <div class="cert-check">✓</div>
+      <div class="cert-name">Graphic Designing</div>
+      <div class="cert-issuer">Certification</div>
+    </div>
+  </div>
+  <div class="edu-grid reveal">
+    <div class="edu-card">
+      <div class="edu-year">2021 – 2024</div>
+      <div class="edu-degree">B.Sc. Information Technology</div>
+      <div class="edu-school">SRM College, Mumbai · University of Mumbai</div>
+      <div class="edu-score">CGPA: 8.18 / 10</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-year">2020 – 2021</div>
+      <div class="edu-degree">HSC — Science</div>
+      <div class="edu-school">Kudal High School Junior College</div>
+      <div class="edu-score">72.33%</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrapper">
+    <div class="reveal">
+      <div class="section-label">06 — Contact</div>
+      <div class="contact-headline">Let's build<br>something <em>together.</em></div>
+      <p class="contact-blurb">I'm actively looking for Business Analyst, Data Analyst, and BI roles. If you have an opportunity or just want to connect, reach out — I respond fast.</p>
+      <a class="btn-primary" href="mailto:asmitsarmalkar803@gmail.com">Send a message →</a>
+    </div>
+    <div class="contact-links reveal">
+      <a class="contact-link" href="mailto:asmitsarmalkar803@gmail.com">
+        <div class="contact-link-left">
+          <div class="contact-link-icon">✉</div>
+          <div>
+            <div class="contact-link-label">Email</div>
+            <div class="contact-link-val">asmitsarmalkar803@gmail.com</div>
+          </div>
+        </div>
+        <div class="contact-link-arrow">→</div>
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/in/asmit-sarmalkar" target="_blank">
+        <div class="contact-link-left">
+          <div class="contact-link-icon">in</div>
+          <div>
+            <div class="contact-link-label">LinkedIn</div>
+            <div class="contact-link-val">linkedin.com/in/asmit-sarmalkar</div>
+          </div>
+        </div>
+        <div class="contact-link-arrow">→</div>
+      </a>
+      <a class="contact-link" href="tel:+919284860663">
+        <div class="contact-link-left">
+          <div class="contact-link-icon">☎</div>
+          <div>
+            <div class="contact-link-label">Phone</div>
+            <div class="contact-link-val">+91 92848 60663</div>
+          </div>
+        </div>
+        <div class="contact-link-arrow">→</div>
+      </a>
+      <div class="contact-link">
+        <div class="contact-link-left">
+          <div class="contact-link-icon">📍</div>
+          <div>
+            <div class="contact-link-label">Location</div>
+            <div class="contact-link-val">Mumbai, India</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Asmit Sarmalkar</span>
+  <span>Business Analyst · Data Analyst · Mumbai, India</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
